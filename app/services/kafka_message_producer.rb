@@ -1,5 +1,5 @@
 class KafkaMessageProducer
-  TOPIC = 'books'.freeze
+  TOPIC = "#{ENV['KAFKA_PREFIX']}books".freeze
 
   def self.publish(message)
     kafka = Rails.application.config.kafka_producer
