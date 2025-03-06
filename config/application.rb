@@ -29,11 +29,11 @@ module KafkaProducer
     kafka_brokers = ENV["KAFKA_URL"].split(",")
 
     config.kafka_producer = Kafka.new(
-      kafka_brokers,
-      ssl_ca_cert: ENV["KAFKA_TRUSTED_CERT"],
-      ssl_client_cert: ENV["KAFKA_CLIENT_CERT"],
-      ssl_client_cert_key: ENV["KAFKA_CLIENT_CERT_KEY"],
-      client_id: ENV["KAFKA_PREFIX"] || "default-client"
+      seed_brokers: ENV.fetch('KAFKA_URL').split(','),
+      ssl_client_cert: OpenSSL::X509::Certificate.new(ENV['KAFKA_CLIENT_CERT']),
+      ssl_client_cert_key: OpenSSL::PKey::RSA.new(ENV['KAFKA_CLIENT_CERT_KEY']),
+      ssl_ca_cert: OpenSSL::X509::Certificate.new(ENV['KAFKA_TRUSTED_CERT']),
+      ssl_verify_hostname: false  # <--- Disable hostname verification
     )
   end
 end
