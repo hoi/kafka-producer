@@ -1,6 +1,7 @@
 require_relative "boot"
 
 require "rails/all"
+require "kafka"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -23,5 +24,16 @@ module KafkaProducer
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Setup Kafka producer
+    kafka_brokers = ENV["KAFKA_URL"].split(",")
+
+    config.kafka_producer = Kafka.new(
+      kafka_brokers,
+      ssl_ca_cert: ENV["KAFKA_TRUSTED_CERT"],
+      ssl_client_cert: ENV["KAFKA_CLIENT_CERT"],
+      ssl_client_cert_key: ENV["KAFKA_CLIENT_CERT_KEY"],
+      client_id: ENV["KAFKA_PREFIX"] || "default-client"
+    )
   end
 end
