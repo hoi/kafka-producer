@@ -24,16 +24,5 @@ module KafkaProducer
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-
-    # Setup Kafka producer
-    kafka_brokers = ENV["KAFKA_URL"].split(",")
-
-    config.kafka_producer = Kafka.new(
-      seed_brokers: ENV.fetch('KAFKA_URL').split(','),
-      ssl_client_cert: OpenSSL::X509::Certificate.new(ENV['KAFKA_CLIENT_CERT']),
-      ssl_client_cert_key: OpenSSL::PKey::RSA.new(ENV['KAFKA_CLIENT_CERT_KEY']),
-      ssl_ca_cert: OpenSSL::X509::Certificate.new(ENV['KAFKA_TRUSTED_CERT']),
-      ssl_verify_hostname: false  # <--- Disable hostname verification
-    )
   end
 end
