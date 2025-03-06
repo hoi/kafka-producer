@@ -1,4 +1,4 @@
-class KafkaProducer
+class KafkaMessageProducer
   TOPIC = 'books'.freeze
 
   def self.publish(message)
